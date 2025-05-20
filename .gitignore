@@ -133,3 +133,4 @@ dist
 .env.*.local
 .env
 firebase-service-account.json
+simToken.js
