@@ -1,15 +1,8 @@
-const Jar = require('../models/Jar');
 const Transaction = require('../models/Transaction');
-const { getUserIdFromToken } = require('../utils/helpers');
+const { getUserIdFromToken} = require('../utils/tokenHelpers');
+const { splitIncomeIntoJars, checkJarExistsAndBalance, updateJarBalance } = require('../utils/jarHelpers');
 
-const JAR_PERCENTAGES = {
-  Necessities: 55,
-  Savings: 10,
-  Education: 10,
-  Play: 10,
-  Give: 5,
-  Investment: 10,
-};
+
 
 async function addIncome(req, res) {
   try {
@@ -17,11 +10,11 @@ async function addIncome(req, res) {
     const { amount, notes } = req.body;
     
 
-    if (!amount || amount <= 0) {
+    if (typeof amount !== 'number' || isNaN(amount) || amount <= 0) {
       return res.status(400).json({ message: 'Invalid income amount' });
     }
 
-    // 1. Save overall income transaction (optional)
+    // 1. Save overall income transaction 
     await Transaction.create({
       uid,
       type: 'Income',
@@ -30,21 +23,8 @@ async function addIncome(req, res) {
       notes: notes || '',
     });
 
-    // 2. Calculate and update jars + create separate income transactions
-    const jarUpdates = [];
-    for (const [jarName, percent] of Object.entries(JAR_PERCENTAGES)) {
-      const jarAmount = (amount * percent) / 100;
-
-      jarUpdates.push(
-        Jar.findOneAndUpdate(
-         { uid, jarName },
-         { $inc: { currentAmount: jarAmount } },
-         { new: true, upsert: true }
-        )
-     );
-    }
-
-    await Promise.all(jarUpdates);
+    // 2. Calculate and update jars 
+    await splitIncomeIntoJars(uid, amount);
 
     res.status(201).json({ message: 'Income added and split successfully.' });
   } catch (error) {
@@ -53,4 +33,37 @@ async function addIncome(req, res) {
   }
 }
 
-module.exports = { addIncome };
+async function addExpense(req, res) {
+  try {
+    const uid = getUserIdFromToken(req.user);
+    const { jarName, amount, notes } = req.body;
+
+    if (typeof amount !== 'number' || isNaN(amount) || amount <= 0) {
+      return res.status(400).json({ message: 'Invalid expense amount' });
+    }  
+    if (!jarName) {
+      return res.status(400).json({ message: 'Jar name is required' });
+    }
+
+    await checkJarExistsAndBalance(uid, jarName, amount);
+
+    // 1. Save overall expense transaction
+    await Transaction.create({
+      uid,
+      type: 'Expense',
+      jarName,
+      amount,
+      notes: notes || '',
+    });
+
+    // 2. Calculate and update jars
+    await updateJarBalance(uid, jarName, amount);
+
+    res.status(201).json({ message: 'Expense added and jar updated successfully.' });
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ message: error.message });;
+  }
+}
+
+module.exports = { addIncome, addExpense };
