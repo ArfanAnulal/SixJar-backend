@@ -8,5 +8,5 @@ var jarSchema = mongoose.Schema({
 
 jarSchema.index({ uid: 1 });
 
-var Jar = mongoose.model("jar", jarSchema);
+var Jar = mongoose.model("Jar", jarSchema);
 module.exports = Jar;

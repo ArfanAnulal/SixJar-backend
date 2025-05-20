@@ -1,7 +1,8 @@
 const express = require('express');
-const router = express.Router();        
-const {sayHello} = require('../controllers/transactionsController');
+const router = express.Router();   
+const authenticateFirebaseToken = require('../middlewares/authMiddleware');     
+const {addIncome} = require('../controllers/transactionsController');
 
-router.get('/Hello', sayHello);
+router.post('/income', authenticateFirebaseToken, addIncome);
 
 module.exports = router;
