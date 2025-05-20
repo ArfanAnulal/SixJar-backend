@@ -18,7 +18,6 @@ const authenticateFirebaseToken = async (req, res, next) => {
 
     // You can use the uid from the decoded token to fetch or associate user data
     req.user = decodedToken; // Attach decoded token including uid (decodedToken.uid) to the request
-
     // Token is valid, proceed to the next middleware or route handler
     next();
 
