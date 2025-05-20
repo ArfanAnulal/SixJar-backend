@@ -4,6 +4,4 @@ const sayBye = (req, res) => {
     res.send(`Bye from the jars controller! User ID: ${userId}`);
 };
 
-module.exports = {
-    sayBye
-};
+module.exports = {sayBye};
