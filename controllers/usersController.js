@@ -1,5 +1,4 @@
 const User = require('../models/User'); 
-const admin = require('../config/firebaseAdmin');
 
 /**
  * @description Create/Sync a user profile in MongoDB after successful Firebase client-side signup/login.

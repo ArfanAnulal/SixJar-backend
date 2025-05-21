@@ -1,5 +1,4 @@
 const User = require('../models/User'); 
-const admin = require('firebase-admin');
 /**
  * @description (Optional) Register a user from the backend in both Firebase and MongoDB.
  * This is useful for admin panels, migrations, or specific server-driven workflows.
