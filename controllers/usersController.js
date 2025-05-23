@@ -1,6 +1,6 @@
-const { setDefaultJar } = require('../utils/jarHelpers');
 const User = require('../models/User'); 
 const admin = require('../config/firebaseAdmin');
+const { setDefaultJar } = require('../utils/jarHelpers');
 
 /**
  * @description Create/Sync a user profile in MongoDB after successful Firebase client-side signup/login.
