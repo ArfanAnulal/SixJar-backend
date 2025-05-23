@@ -154,6 +154,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Author
 
 * **Arfan Anulal**
-    * GitHub: [GitHub](https://github.com/ArfanAnulal)
-    * LinkedIn: [LinkedIn](https://www.linkedin.com/in/arfanvanulal)
-    * Portfolio: [Portfolio](arfan.codes)
+    * [GitHub](https://github.com/ArfanAnulal)
+    * [LinkedIn](https://www.linkedin.com/in/arfanvanulal)
+    * [Portfolio](arfan.codes)
