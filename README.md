@@ -149,7 +149,7 @@ Contributions are welcome! Please check the "Issues" tab for features or bugs yo
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details (you would create this file with the MIT license text).
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details (you would create this file with the MIT license text).
 
 ## Author
 
