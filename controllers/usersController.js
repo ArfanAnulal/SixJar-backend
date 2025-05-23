@@ -1,4 +1,8 @@
 const User = require('../models/User'); 
+const admin = require('../config/firebaseAdmin');
+const { setDefaultJar } = require('../utils/jarHelpers');
+
+
 
 /**
  * @description Create/Sync a user profile in MongoDB after successful Firebase client-side signup/login.
@@ -15,6 +19,7 @@ const syncUserProfile = async (req, res) => {
 
         // Check if user already exists in MongoDB using the 'uid' field from your schema
         let user = await User.findOne({ uid: firebaseTokenUid });
+        console.log('Found user:', user);
 
         if (user) {
             // User already exists, timestamps:true will update 'updatedAt'
@@ -38,6 +43,7 @@ const syncUserProfile = async (req, res) => {
         });
 
         await newUser.save();
+        await setDefaultJar(newUser.uid);
 
         res.status(201).json({ message: 'User profile created successfully in MongoDB.', user: newUser });
 
@@ -62,6 +68,7 @@ const getCurrentUserProfile = async (req, res) => {
 
         // Find user in MongoDB by the 'uid' field which stores the Firebase UID
         const user = await User.findOne({ uid: firebaseTokenUid });
+        console.log('Found user:', user);
 
         if (!user) {
             return res.status(404).json({ message: 'User profile not found in MongoDB. Please complete the profile sync process.' });

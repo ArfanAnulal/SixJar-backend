@@ -15,9 +15,9 @@ const authenticateFirebaseToken = async (req, res, next) => {
   try {
     //Verify the Token
     const decodedToken = await admin.auth().verifyIdToken(idToken);
-
     // You can use the uid from the decoded token to fetch or associate user data
     req.user = decodedToken; // Attach decoded token including uid (decodedToken.uid) to the request
+    req.user.name = req.user.email.split('@')[0]; // Optional: Set a default name from the email if needed
     // Token is valid, proceed to the next middleware or route handler
     next();
 

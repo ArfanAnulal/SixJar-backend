@@ -7,6 +7,7 @@ const JAR_PERCENTAGES = {
   Give: 5,
   Investment: 10,
 };
+const JAR_TYPES = ['Necessities', 'Savings', 'Education', 'Play', 'Give', 'Investment'];
 
 async function splitIncomeIntoJars(uid,amount) {
   const jarUpdates = [];
@@ -46,4 +47,19 @@ async function updateJarBalance(uid, jarName, amount) {
   return updatedJar;
 }
 
-module.exports = {splitIncomeIntoJars, checkJarExistsAndBalance, updateJarBalance};
+
+async function setDefaultJar(uid) {
+    for (let i = 0; i < JAR_TYPES.length; i++) {
+        const jar = new Jar({
+            uid,
+            jarName: JAR_TYPES[i],
+            currentAmount: 0
+        });
+        await jar.save();
+    }
+};
+
+
+
+
+module.exports = {splitIncomeIntoJars, checkJarExistsAndBalance, updateJarBalance, setDefaultJar};
