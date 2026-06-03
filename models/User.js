@@ -6,5 +6,5 @@ var userSchema = mongoose.Schema({
     email:{type:String, required:true, unique: true, lowercase: true, trim: true}
 }, { timestamps: true })
 
-var User = mongoose.model("User", userSchema);
-module.exports = User;
+// This pattern prevents the OverwriteModelError
+module.exports = mongoose.models.User || mongoose.model("User", userSchema);

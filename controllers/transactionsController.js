@@ -7,7 +7,7 @@ const { splitIncomeIntoJars, checkJarExistsAndBalance, updateJarBalance } = requ
 async function addIncome(req, res) {
   try {
     const uid = getUserIdFromToken(req.user); // from auth middleware
-    const { amount, notes } = req.body;
+    const { amount, notes, categoryId } = req.body;
     
 
     if (typeof amount !== 'number' || isNaN(amount) || amount <= 0) {
@@ -21,6 +21,7 @@ async function addIncome(req, res) {
       jarName: 'Split between jars',
       amount,
       notes: notes || '',
+      categoryId: categoryId || null,
     });
 
     // 2. Calculate and update jars 
